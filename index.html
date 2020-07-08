@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>rav1e live streaming demo</title>
+        <meta name="author" content="Lynne">
+        <meta name="author" content="Lynne">
+        <style>
+         .aero-image {
+             position: absolute;
+             }
+         .aero-video {
+             position: absolute;
+             top: 350px;
+             left: 720px;
+             }
+        </style>
+    </head>
+    <body>
+        <link href="https://vjs.zencdn.net/7.8.2/video-js.min.css" rel="stylesheet" />
+        <script src="https://vjs.zencdn.net/7.8.2/video.min.js"></script>
+        <img src="thomas_aero_redraw-grid.jpg" class="aero-image">
+            <video-js id="live-video" width="480" height="640" controls
+                      poster="{static}/extra/stream_bg.jpg" class="vjs-default-skin aero-video"
+                      preload="none" data-setup='{"liveui": true}' crossorigin="anonymous">
+                <p class="vjs-no-js">
+                    To view this video please enable JavaScript, and consider upgrading to a
+                    web browser that
+                    <a href="https://videojs.com/html5-video-support/" target="_blank">
+                        supports AV1 video and Opus audio
+                    </a>
+                </p>
+            </video-js>
+        <script>
+         var player = videojs('live-video');
+         player.ready(function() {
+             player.src({
+                 src: "https://mozillaavtest.akamaized.net/cmaf/live-ull/2015563/rav1e_1/live.mpd",
+                 type: "application/dash+xml",
+             });
+             player.on("error", function() {
+                 document.querySelector(".vjs-modal-dialog-content").textContent =
+                     "The stream is offline right now, come back later and refresh.";
+             });
+             player.on("ended", function() {
+                 document.querySelector(".vjs-modal-dialog-content").textContent =
+                     "The stream is over.";
+             });
+         })
+        </script>
+    </body>
+</html>
